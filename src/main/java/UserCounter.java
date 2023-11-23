@@ -1,4 +1,4 @@
-public final class UserCounter {
+public final class UserCounter implements UserRegisteredSubscriber {
 
   private int numberOfUsers;
 
