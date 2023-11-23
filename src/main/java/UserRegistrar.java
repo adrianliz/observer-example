@@ -1,9 +1,12 @@
+import java.util.Set;
+
 public final class UserRegistrar {
 
   private final UserRepository userRepository;
   private final EmailNotifier emailNotifier;
   private final SlackNotifier slackNotifier;
   private final UserCounter userCounter;
+  private final Set<UserRegisteredSubscriber> subscribers;
 
   public UserRegistrar(
       InMemoryUserRepository userRepository,
@@ -14,12 +17,11 @@ public final class UserRegistrar {
     this.emailNotifier = emailNotifier;
     this.slackNotifier = slackNotifier;
     this.userCounter = userCounter;
+    this.subscribers = Set.of(emailNotifier, slackNotifier, userCounter);
   }
 
   public void register(final User user) {
     userRepository.save(user);
-    emailNotifier.newUserRegistered(user);
-    slackNotifier.newUserRegistered(user);
-    userCounter.newUserRegistered(user);
+    subscribers.forEach(subscriber -> subscriber.newUserRegistered(user));
   }
 }
