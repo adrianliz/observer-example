@@ -1,6 +1,7 @@
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.Set;
 import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,9 @@ public final class UserRegistrarShould {
     var userId = UUID.randomUUID();
     var user = new User(userId, "user1@email.com");
     var userRepository = new InMemoryUserRepository();
-    var emailNotifier = new EmailNotifier();
-    var slackNotifier = new SlackNotifier();
-    var userCounter = new UserCounter();
-    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier, userCounter);
+    var userRegistrar =
+        new UserRegistrar(
+            userRepository, Set.of(new EmailNotifier(), new SlackNotifier(), new UserCounter()));
 
     userRegistrar.register(user);
 
@@ -28,9 +28,9 @@ public final class UserRegistrarShould {
     var user = new User(userId, "user1@email.com");
     var userRepository = new InMemoryUserRepository();
     var emailNotifier = spy(new EmailNotifier());
-    var slackNotifier = new SlackNotifier();
-    var userCounter = new UserCounter();
-    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier, userCounter);
+    var userRegistrar =
+        new UserRegistrar(
+            userRepository, Set.of(emailNotifier, new SlackNotifier(), new UserCounter()));
 
     userRegistrar.register(user);
 
@@ -42,10 +42,10 @@ public final class UserRegistrarShould {
     var userId = UUID.randomUUID();
     var user = new User(userId, "user1@gmail.com");
     var userRepository = new InMemoryUserRepository();
-    var emailNotifier = new EmailNotifier();
     var slackNotifier = spy(new SlackNotifier());
-    var userCounter = new UserCounter();
-    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier, userCounter);
+    var userRegistrar =
+        new UserRegistrar(
+            userRepository, Set.of(new EmailNotifier(), slackNotifier, new UserCounter()));
 
     userRegistrar.register(user);
 
@@ -57,10 +57,10 @@ public final class UserRegistrarShould {
     var userId = UUID.randomUUID();
     var user = new User(userId, "user1@gmail.com");
     var userRepository = new InMemoryUserRepository();
-    var emailNotifier = new EmailNotifier();
-    var slackNotifier = new SlackNotifier();
     var userCounter = new UserCounter();
-    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier, userCounter);
+    var userRegistrar =
+        new UserRegistrar(
+            userRepository, Set.of(new EmailNotifier(), new SlackNotifier(), userCounter));
 
     userRegistrar.register(user);
 

@@ -6,12 +6,10 @@ public final class UserRegistrar {
   private final Set<UserRegisteredSubscriber> subscribers;
 
   public UserRegistrar(
-      InMemoryUserRepository userRepository,
-      EmailNotifier emailNotifier,
-      SlackNotifier slackNotifier,
-      UserCounter userCounter) {
+      final InMemoryUserRepository userRepository,
+      final Set<UserRegisteredSubscriber> subscribers) {
     this.userRepository = userRepository;
-    this.subscribers = Set.of(emailNotifier, slackNotifier, userCounter);
+    this.subscribers = subscribers;
   }
 
   public void register(final User user) {
