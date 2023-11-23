@@ -14,7 +14,8 @@ public final class UserRegistrarShould {
     var userRepository = new InMemoryUserRepository();
     var emailNotifier = new EmailNotifier();
     var slackNotifier = new SlackNotifier();
-    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier);
+    var userCounter = new UserCounter();
+    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier, userCounter);
 
     userRegistrar.register(user);
 
@@ -28,7 +29,8 @@ public final class UserRegistrarShould {
     var userRepository = new InMemoryUserRepository();
     var emailNotifier = spy(new EmailNotifier());
     var slackNotifier = new SlackNotifier();
-    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier);
+    var userCounter = new UserCounter();
+    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier, userCounter);
 
     userRegistrar.register(user);
 
@@ -42,10 +44,26 @@ public final class UserRegistrarShould {
     var userRepository = new InMemoryUserRepository();
     var emailNotifier = new EmailNotifier();
     var slackNotifier = spy(new SlackNotifier());
-    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier);
+    var userCounter = new UserCounter();
+    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier, userCounter);
 
     userRegistrar.register(user);
 
     verify(slackNotifier).sendNotificationTo(user);
+  }
+
+  @Test
+  public void increment_number_of_user_after_user_registration() {
+    var userId = UUID.randomUUID();
+    var user = new User(userId, "user1@gmail.com");
+    var userRepository = new InMemoryUserRepository();
+    var emailNotifier = new EmailNotifier();
+    var slackNotifier = new SlackNotifier();
+    var userCounter = new UserCounter();
+    var userRegistrar = new UserRegistrar(userRepository, emailNotifier, slackNotifier, userCounter);
+
+    userRegistrar.register(user);
+
+    Assertions.assertThat(userCounter.count()).isEqualTo(1);
   }
 }
