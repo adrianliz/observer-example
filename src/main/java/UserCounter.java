@@ -6,7 +6,12 @@ public final class UserCounter {
     this.numberOfUsers = 0;
   }
 
-  public void increment() {
+  public void newUserRegistered(final User user) {
+    System.out.println("Incrementing user count for " + user);
+    increment();
+  }
+
+  private void increment() {
     numberOfUsers++;
   }
 

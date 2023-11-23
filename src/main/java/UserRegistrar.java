@@ -18,8 +18,8 @@ public final class UserRegistrar {
 
   public void register(final User user) {
     userRepository.save(user);
-    emailNotifier.sendRegistrationEmailTo(user);
-    slackNotifier.sendNotificationTo(user);
-    userCounter.increment();
+    emailNotifier.newUserRegistered(user);
+    slackNotifier.newUserRegistered(user);
+    userCounter.newUserRegistered(user);
   }
 }

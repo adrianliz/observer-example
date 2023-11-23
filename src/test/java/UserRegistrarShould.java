@@ -34,7 +34,7 @@ public final class UserRegistrarShould {
 
     userRegistrar.register(user);
 
-    verify(emailNotifier).sendRegistrationEmailTo(user);
+    verify(emailNotifier).newUserRegistered(user);
   }
 
   @Test
@@ -49,7 +49,7 @@ public final class UserRegistrarShould {
 
     userRegistrar.register(user);
 
-    verify(slackNotifier).sendNotificationTo(user);
+    verify(slackNotifier).newUserRegistered(user);
   }
 
   @Test

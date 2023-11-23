@@ -1,6 +1,6 @@
 public final class SlackNotifier {
 
-  public void sendNotificationTo(User user) {
+  public void newUserRegistered(User user) {
     System.out.println("Sending Slack notification to " + user);
   }
 }
